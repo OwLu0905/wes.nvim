@@ -13,10 +13,12 @@ Using lazy.nvim:
 
 ```lua
 {
-    'Owlu0905/wes.nvim',
+    'OwLu0905/wes.nvim',
     dependencies = {},
     config = function()
-      require("wes").setup {}
+      require("wes").setup {
+        telescope_bind = true,
+      }
     end,
 }
 ```
@@ -28,6 +30,25 @@ Using lazy.nvim:
 :WesPick tokyonight
 ```
 Your selection will be automatically saved and persisted. 
+
+## Customization
+
+### Telescope setup structure
+```lua 
+require("wes").setup {
+    telescope_bind = true,
+}
+```
+
+```vim
+local builtin = require('telescope.builtin')
+vim.keymap.set("n", "<leader>cc", function()
+  builtin.colorscheme({
+    enable_preview = true,
+  })
+end, { desc = "Pick colorscheme" })
+```
+
 
 ## License
 MIT

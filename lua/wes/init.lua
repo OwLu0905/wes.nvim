@@ -1,9 +1,11 @@
 --- @class ColorschemeOpts
 --- @field new_theme string? theme
+--- @field telescope_bind boolean? telescope binding
 
 local M = {}
 
 local manager = require("wes.utils")
+local telescope = require("wes.telescope")
 
 -- Configuration
 local config_dir = vim.fn.stdpath("state") -- ~/.local/state/nvim/
@@ -17,9 +19,16 @@ M.themes = M.get_themes()
 
 --- @param opts ColorschemeOpts
 function M.setup(opts)
-	opts = opts or {}
+	opts = opts or {
+		telescope_bind = false,
+	}
 
 	manager.apply_theme(config_file)
+
+	if opts.telescope_bind then
+		telescope.telescope_bind(M.get_themes(), config_file)
+	end
+
 	vim.api.nvim_create_user_command("WesPick", function(cmd)
 		local args = cmd.args
 
@@ -27,9 +36,9 @@ function M.setup(opts)
 	end, {
 		nargs = 1,
 		complete = function(ArgLead)
-			-- Get all available themes
 			local themes = M.themes
 
+			-- TODO: fix the fuzzy finding
 			-- Filter themes that partially match the current input
 			local matches = {}
 			for _, theme in ipairs(themes) do

@@ -1,8 +1,8 @@
 local M = {}
 
 --- @class ConfigData
---- @field current_theme string The configuration data
---- @field last_modified string The timestamp
+--- @field current_theme string current theme name
+--- @field last_modified string timestamp
 
 --- Reads a configuration file from the specified path
 --- @param path string Path to the configuration file
