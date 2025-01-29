@@ -26,8 +26,18 @@ function M.setup(opts)
 		manager.update_config(args, M.get_themes(), config_file)
 	end, {
 		nargs = 1,
-		complete = function()
-			return M.themes
+		complete = function(ArgLead)
+			-- Get all available themes
+			local themes = M.themes
+
+			-- Filter themes that partially match the current input
+			local matches = {}
+			for _, theme in ipairs(themes) do
+				if string.lower(theme):find(string.lower(ArgLead)) then
+					table.insert(matches, theme)
+				end
+			end
+			return matches
 		end,
 	})
 end
