@@ -20,6 +20,7 @@ Using lazy.nvim:
         telescope_bind = true,
       }
     end,
+    event = "VeryLazy"
 }
 ```
 
