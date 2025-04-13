@@ -1,6 +1,8 @@
 local M = {}
 
-function M.telescope_bind(theme_list, path)
+--- @param get_theme_list function
+--- @param path string
+function M.telescope_bind(get_theme_list, path)
 	local telescope = require("telescope")
 	local actions = require("telescope.actions")
 
@@ -20,7 +22,7 @@ function M.telescope_bind(theme_list, path)
 						actions.close(prompt_bufnr)
 						-- Update colorscheme using our manager
 						if selection and selection.value then
-							manager.update_config(selection.value, theme_list, path)
+							manager.update_config(selection.value, get_theme_list, path)
 						end
 					end)
 					return true

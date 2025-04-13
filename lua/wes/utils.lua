@@ -38,11 +38,11 @@ function M.get_config(path)
 end
 
 --- @param new_theme string
---- @param theme_list table
+--- @param get_theme_list function Function that returns the list of available themes
 --- @param path string
 --- @return boolean
-function M.update_config(new_theme, theme_list, path)
-	if not vim.tbl_contains(theme_list, new_theme) then
+function M.update_config(new_theme, get_theme_list, path)
+	if not vim.tbl_contains(get_theme_list(), new_theme) then
 		error("Theme '" .. new_theme .. "' is not available")
 		return false
 	end
