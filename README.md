@@ -20,13 +20,13 @@ Using lazy.nvim:
         telescope_bind = true,
       }
     end,
-    event = "VeryLazy"
 }
 ```
 
 ## Usage
 
 `:WesPick` - pick colorscheme as default
+
 ```
 :WesPick tokyonight
 ```
@@ -35,6 +35,9 @@ Your selection will be automatically saved and persisted.
 ## Customization
 
 ### Telescope setup structure
+
+`:WesThemes` - open telescope colorschemes to save and persist your selection
+
 ```lua 
 require("wes").setup {
     telescope_bind = true,
@@ -42,12 +45,7 @@ require("wes").setup {
 ```
 
 ```vim
-local builtin = require('telescope.builtin')
-vim.keymap.set("n", "<leader>cc", function()
-  builtin.colorscheme({
-    enable_preview = true,
-  })
-end, { desc = "Pick colorscheme" })
+vim.keymap.set("n", "<leader>cc", ":WesThemes<CR>", { desc = "Open Wes color theme picker" })
 ```
 
 
