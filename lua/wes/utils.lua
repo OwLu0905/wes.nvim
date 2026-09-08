@@ -67,12 +67,41 @@ function M.update_config(new_theme, get_theme_list, path)
 	return true
 end
 
--- Apply the configured theme
+-- Apply the configured theme without interrupting startup on stale or invalid state.
+--- @param path string
+--- @return boolean
 function M.apply_theme(path)
-	local config = M.get_config(path)
-	if config and config.current_theme then
-		vim.cmd.colorscheme(config.current_theme)
+	local ok, config = pcall(M.get_config, path)
+	if not ok then
+		vim.notify("wes.nvim: Could not read saved colorscheme: " .. tostring(config), vim.log.levels.WARN)
+		return false
 	end
+
+	if type(config) ~= "table" then
+		vim.notify("wes.nvim: Invalid saved colorscheme configuration", vim.log.levels.WARN)
+		return false
+	end
+
+	-- A fresh configuration may not have a selected colorscheme yet.
+	if config.current_theme == nil then
+		return false
+	end
+
+	if type(config.current_theme) ~= "string" or config.current_theme == "" then
+		vim.notify("wes.nvim: Invalid saved colorscheme name", vim.log.levels.WARN)
+		return false
+	end
+
+	local applied, err = pcall(vim.cmd.colorscheme, config.current_theme)
+	if not applied then
+		vim.notify(
+			"wes.nvim: Could not restore colorscheme '" .. config.current_theme .. "': " .. tostring(err),
+			vim.log.levels.WARN
+		)
+		return false
+	end
+
+	return true
 end
 
 return M
